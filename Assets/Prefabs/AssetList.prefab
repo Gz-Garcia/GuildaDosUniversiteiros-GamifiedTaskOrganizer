@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &438140989540718923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 438140989540718922}
+  - component: {fileID: 438140989540718925}
+  m_Layer: 0
+  m_Name: AssetList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &438140989540718922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438140989540718923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 335.11142, y: 947.92413, z: 25.350933}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &438140989540718925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438140989540718923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2565d97b0984b4b98894f401eeca88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontKeys:
+  - RussoOne
+  - AbrilFatface
+  - ADLaM
+  - Alegrian
+  - Caveat
+  - ComicSans
+  - IndieFlower
+  - Lobster
+  - Ubuntu
+  fontValues:
+  - {fileID: 11400000, guid: 250764c1622b4d749886f69f3d8fceb2, type: 2}
+  - {fileID: 11400000, guid: 6934059b710c9b242a72a19adc99d67c, type: 2}
+  - {fileID: 11400000, guid: 9613ad4a1366931458ac46173383915c, type: 2}
+  - {fileID: 11400000, guid: d2b305ec548884f42b22566ce36b195c, type: 2}
+  - {fileID: 11400000, guid: 60f721d4d96eae84d88db05e6dbadde9, type: 2}
+  - {fileID: 11400000, guid: c0a1b337f0c3ead4c847f520f628905b, type: 2}
+  - {fileID: 11400000, guid: e3d3303daa157864cb3f8039063fff9d, type: 2}
+  - {fileID: 11400000, guid: fc940f941670be54ca6d3f528c4eb64d, type: 2}
+  - {fileID: 11400000, guid: bae5dfdb42855654eba87fd8c731fe7f, type: 2}
+  currentFont: Ubuntu
