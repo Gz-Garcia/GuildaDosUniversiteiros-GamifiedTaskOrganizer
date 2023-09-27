@@ -8,8 +8,7 @@ public class PegaData : MonoBehaviour
 {
     private string data;
     public TMP_Text texto;
-    
-    // Start is called before the first frame update
+
     void Start()
     {
         data = DateTime.Now.ToString("dd / MM / yyyy");

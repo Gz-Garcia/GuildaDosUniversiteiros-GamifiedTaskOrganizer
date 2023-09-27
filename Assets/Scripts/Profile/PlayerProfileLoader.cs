@@ -8,6 +8,7 @@ public class PlayerProfileLoader : MonoBehaviour
     public TMP_Text playerName, playerLevel, playerXp, playerCoins;
     private PlayerData player;
     void Start() {
+
         player = MainPersistence.Instance.playerData;
         LoadFields();
     }
