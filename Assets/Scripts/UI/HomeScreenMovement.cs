@@ -54,6 +54,11 @@ public class HomeScreenMovement : MonoBehaviour
         movingMenu = true;
     }
 
+    public void SlideSideTasks() {
+        movementTarget = sideTasksPos.transform.position;
+        movingMenu = true;
+    }
+
     public void SlideMap() {
         movementTarget = mapPos.transform.position;
         movingMenu = true;

@@ -62,8 +62,6 @@ public class FirebaseManager : MonoBehaviour
             auth = FirebaseAuth.DefaultInstance;
             auth.StateChanged += AuthStateChanged;
             AuthStateChanged(this, null);
-
-
             DBreference = FirebaseDatabase.DefaultInstance.RootReference;
         }
         catch(Exception e) {
