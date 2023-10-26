@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class LoginUIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static LoginUIManager instance;
 
     //Screen object variables
     public GameObject loginUI;
     public GameObject registerUI;
     public GameObject userDataUI;
-    public GameObject scoreboardUI;
 
     private void Awake()
     {
@@ -33,7 +32,6 @@ public class UIManager : MonoBehaviour
         loginUI.SetActive(false);
         registerUI.SetActive(false);
         userDataUI.SetActive(false);
-        scoreboardUI.SetActive(false);
     }
 
     public void LoginScreen() //Back button
@@ -53,9 +51,4 @@ public class UIManager : MonoBehaviour
         userDataUI.SetActive(true);
     }
 
-    public void ScoreboardScreen() //Scoreboard button
-    {
-        ClearScreen();
-        scoreboardUI.SetActive(true);
-    }
 }

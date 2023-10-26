@@ -14,6 +14,19 @@ public class HomeScreenMovement : MonoBehaviour
     public float slideSpeed;
     private float tempMenuPos;
 
+    public static HomeScreenMovement instance;
+    private void Awake() {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != null)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            Destroy(this);
+        }
+    }
+
     void Start()
     {
         homePanel.transform.position = mainTasksPos.transform.position;

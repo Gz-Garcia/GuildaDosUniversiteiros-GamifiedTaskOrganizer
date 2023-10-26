@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Database;
@@ -24,13 +25,6 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordRegisterField;
     public TMP_InputField passwordRegisterVerifyField;
     public TMP_Text warningRegisterText;
-
-    [Header("UserData")]
-    public TMP_InputField usernameField;
-    public TMP_InputField levelField;
-    public TMP_InputField xpField;
-    public TMP_InputField goldField;
-    public TMP_InputField completedtasksField;
     
     public void ClearLoginFeilds()
     {
@@ -61,9 +55,7 @@ public class LoginManager : MonoBehaviour
     public void SignOutButton()
     {
         FirebaseManager.Instance.auth.SignOut();
-        UIManager.instance.LoginScreen();
-        ClearRegisterFeilds();
-        ClearLoginFeilds();
+        SceneManager.LoadScene(1);
     }
     //Function for the save button
     public void SaveDataButton()
@@ -114,15 +106,10 @@ public class LoginManager : MonoBehaviour
             Debug.LogFormat("User signed in successfully: {0} ({1})", FirebaseManager.Instance.user.DisplayName, FirebaseManager.Instance.user.Email);
             warningLoginText.text = "";
             confirmLoginText.text = "Logged In";
-            StartCoroutine(LoadUserData());
-
+            
             yield return new WaitForSeconds(2);
+            SceneManager.LoadScene(0);
 
-            usernameField.text = FirebaseManager.Instance.user.DisplayName;
-            UIManager.instance.UserDataScreen(); // Change to user data UI
-            confirmLoginText.text = "";
-            ClearLoginFeilds();
-            ClearRegisterFeilds();
         }
     }
 
@@ -197,7 +184,7 @@ public class LoginManager : MonoBehaviour
                     {
                         //Username is now set
                         //Now return to login screen
-                        UIManager.instance.LoginScreen();
+                        LoginUIManager.instance.LoginScreen();
                         warningRegisterText.text = "";
                         ClearRegisterFeilds();
                         ClearLoginFeilds();
@@ -275,39 +262,6 @@ public class LoginManager : MonoBehaviour
         else
         {
             
-        }
-    }
-
-    private IEnumerator LoadUserData()
-    {
-
-        //Get the currently logged in user data
-        Task<DataSnapshot> DBTask = FirebaseManager.Instance.DBreference
-        .Child("users").Child(FirebaseManager.Instance.user.UserId).GetValueAsync();
-
-        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
-
-        if (DBTask.Exception != null)
-        {
-            Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
-        }
-        else if (DBTask.Result.Value == null)
-        {
-            //No data exists yet
-            levelField.text = "0";
-            xpField.text = "0";
-            goldField.text = "0";
-            completedtasksField.text = "0";
-        }
-        else
-        {
-            //Data has been retrieved
-            DataSnapshot snapshot = DBTask.Result;
-
-            xpField.text = snapshot.Child("xp").Value.ToString();
-            levelField.text = snapshot.Child("level").Value.ToString();
-            goldField.text = snapshot.Child("gold").Value.ToString();
-            completedtasksField.text = snapshot.Child("tasks").Child("comp_main_quest").Value.ToString();
         }
     }
 }

@@ -20,6 +20,18 @@ public class FirebaseManager : MonoBehaviour
     public FirebaseUser user;
     public DatabaseReference DBreference;
 
+    private void Awake()
+    {
+        if (Instance == null) {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else {
+            Debug.Log("Instance already exists, destroying firebase manager!");
+            Destroy(this);
+        }
+    }
+
     void Start() {
         StartCoroutine(CheckAndFixDependenciesAsync());
     }
@@ -76,9 +88,11 @@ public class FirebaseManager : MonoBehaviour
     {
         if(user != null) {
             References.userName = user.DisplayName;
+            if(LoginUIManager.instance != null) LoginUIManager.instance.UserDataScreen();
         }
         else {
-            SceneManager.LoadScene(7);
+            HomeScreenMovement.instance.SlideProfile();
+            LoginUIManager.instance.LoginScreen();
         }
     }
 
