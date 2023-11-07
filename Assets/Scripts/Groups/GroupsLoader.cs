@@ -13,6 +13,7 @@ public class GroupsLoader : MonoBehaviour
 
     public string userGroupID;
     public DataSnapshot userGroupData;
+    public List<GroupMemberData> userGroupmembers;
     public bool loading = true;
 
     private void Awake()
@@ -60,8 +61,7 @@ public class GroupsLoader : MonoBehaviour
 
             if (DBTask.Exception != null) Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
 
-            Debug.Log("Carregou Grupos\n GroupsLoader.Instance.userGroupData.Child(group_name).Value.ToString()");
-            Debug.Log(userGroupID);
+            
             
             loading = false;
             // StartCoroutine(UserGroupsUpdater());

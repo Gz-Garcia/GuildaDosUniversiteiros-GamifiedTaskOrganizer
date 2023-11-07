@@ -30,7 +30,6 @@ public class GroupsUIManager : MonoBehaviour
     [Header("Panel Fields")]
     public List<TMP_Text> groupNameTexts;
 
-
     void Start() {
         StartCoroutine(UpdateGroupsUI());
     }
@@ -48,10 +47,8 @@ public class GroupsUIManager : MonoBehaviour
                 emptyGroupsPanel.SetActive(false);
                 groupsSliderPanel.SetActive(true);
 
-                foreach(TMP_Text gpNameField in groupNameTexts) {
-                    gpNameField.text = PlayerProfileLoader.Instance.userGroupData.Child("group_name").Value.ToString();
-                    Debug.Log("Grupos atualizados");
-                }
+                
+                UpdateName();
 
                 //foreach(TMP_Text txGP in groupNameTexts) 
                 //txGP.text = PlayerProfileLoader.Instance.userGroups.Child("group_name").Value.ToString();
@@ -66,10 +63,21 @@ public class GroupsUIManager : MonoBehaviour
         StartCoroutine(JoinGroup());
     }
 
+    public void UpdateName() {
+        foreach (TMP_Text gpNameField in groupNameTexts) {
+            gpNameField.text = PlayerProfileLoader.Instance.userGroupData.Child("group_name").Value.ToString();
+        }
+    }
+
+    public void UpdateMembers() {
+        
+    }
+
     private IEnumerator JoinGroup() {
         string groupID = joinGroupID.text;
+        string userID = FirebaseManager.Instance.user.UserId.ToString();
 
-        if(groupID.Length != 36) {
+        if (groupID.Length != 36) {
             joinGroupID.text = "Codigo invalido";
             yield return new WaitForSeconds(2f);
             joinGroupID.text = " ";
@@ -84,9 +92,17 @@ public class GroupsUIManager : MonoBehaviour
             }
             else {
                 Debug.Log("Encontrado");
+
+                // Adiciona codigo do usuario no grupo
                 Task DBTask2 = FirebaseManager.Instance.DBreference.Child("groups").Child(groupID)
-                .Child("members").SetValueAsync(FirebaseManager.Instance.user.UserId.ToString());
+                .Child("members").SetValueAsync(userID);
                 yield return new WaitUntil(predicate: () => DBTask2.IsCompleted);
+                if (DBTask2.Exception != null) Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+
+                // adiciona codigo do grupo no usuario
+                DBTask2 = FirebaseManager.Instance.DBreference.Child("users").Child(userID).Child("groups").SetValueAsync(groupID);
+                yield return new WaitUntil(predicate: () => DBTask2.IsCompleted);
+                if (DBTask2.Exception != null) Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
             }
         }
     }
