@@ -8460,7 +8460,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1050053741}
         m_TargetAssemblyTypeName: LoginManager, Assembly-CSharp
-        m_MethodName: LoginButton
+        m_MethodName: SignOutButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13670,52 +13670,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1525078777}
   m_CullTransparentMesh: 1
---- !u!1 &1547772492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1547772494}
-  - component: {fileID: 1547772493}
-  m_Layer: 0
-  m_Name: PlayerGroupsLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1547772493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547772492}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93d4585d3f5d87545a4fac03c9b47b39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  userGroupID: 
-  loading: 1
---- !u!4 &1547772494
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547772492}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 185.75682, y: 1041.064, z: 18.740849}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1551078701
 GameObject:
   m_ObjectHideFlags: 0
@@ -16510,11 +16464,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833105190}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f170eb51b492a4a4c9c5fa0f086d441e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadingGroups: 1
+  userGroupID: 
 --- !u!4 &1833105192
 Transform:
   m_ObjectHideFlags: 0
@@ -18644,7 +18600,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 186630049811323922, guid: 9711a95db7f878b46af75e69c18b9d5f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 186630049811323923, guid: 9711a95db7f878b46af75e69c18b9d5f, type: 3}
       propertyPath: m_RootOrder

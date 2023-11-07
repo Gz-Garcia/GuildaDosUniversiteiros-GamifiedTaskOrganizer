@@ -15,6 +15,7 @@ public class FirebaseManager : MonoBehaviour
 
     //Firebase variables
     [Header("Firebase")]
+    public bool signedIn = false;
     public DependencyStatus dependencyStatus;
     public FirebaseAuth auth;
     public FirebaseUser user;
@@ -97,7 +98,7 @@ public class FirebaseManager : MonoBehaviour
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs) {
         if(auth.CurrentUser != user) {
-            bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
+            signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
 
             if(signedIn && user != null) {
                 UnityEngine.Debug.Log("Signed Out " + user.UserId);

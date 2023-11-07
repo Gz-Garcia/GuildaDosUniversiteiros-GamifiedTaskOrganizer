@@ -13,6 +13,9 @@ public class PlayerProfileLoader : MonoBehaviour
 {
     public static PlayerProfileLoader Instance;
     public DataSnapshot playerProfile;
+    public DataSnapshot userGroupData;
+    public bool loadingGroups = true;
+    public string userGroupID;
     private void Awake()
     {
         if (Instance == null)
@@ -28,7 +31,18 @@ public class PlayerProfileLoader : MonoBehaviour
     }
 
     void Start() {
-        StartCoroutine(LoadUserData());
+        if(FirebaseManager.Instance.signedIn){
+            StartCoroutine(LoadUserData());
+        }
+        else {
+            StartCoroutine(WaitForSign());
+        }
+    }
+
+    private IEnumerator WaitForSign() {
+        yield return new WaitForSeconds(1f);
+        if (FirebaseManager.Instance.signedIn) StartCoroutine(LoadUserData());
+        else StartCoroutine(WaitForSign());
     }
 
     private IEnumerator LoadUserData()
@@ -55,7 +69,35 @@ public class PlayerProfileLoader : MonoBehaviour
         {
             Debug.Log("Perfil do usuário Carregado");
             playerProfile = DBTask.Result;
+
+            StartCoroutine(LoadUserGroups());
         }
+    }
+
+    private IEnumerator LoadUserGroups() {
+
+        Task<DataSnapshot> DBTask = FirebaseManager.Instance.DBreference.Child("users")
+        .Child(FirebaseManager.Instance.user.UserId).Child("groups").GetValueAsync();
+
+        yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+        Debug.Log("Comp");
+
+        if (DBTask.Exception != null) Debug.LogWarning(message: $"Failed to register task with {DBTask.Exception}");
+        else if (DBTask.Result.Value == null) {
+            Debug.Log("Não está em nenhum grupo");
+            userGroupID = "";
+        }
+        else {
+            userGroupID = DBTask.Result.Value.ToString();
+            
+            DBTask = FirebaseManager.Instance.DBreference.Child("groups").Child(userGroupID).GetValueAsync();
+            yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+            userGroupData = DBTask.Result;
+            Debug.Log(userGroupData.Child("group_name").Value.ToString());
+        }
+
+        loadingGroups = false;
     }
 
     private IEnumerator CreateNewSave()

@@ -22,7 +22,7 @@ public class GroupsUIManager : MonoBehaviour
     public GameObject newGroupPanel;
     public GameObject joinGroupPanel;
     public TMP_InputField newGroupName;
-    public TMP_InputField joinGroupName;
+    public TMP_InputField joinGroupID;
 
     public Button newGroupSaveButton;
     public Button joinGroupSaveButton;
@@ -30,13 +30,15 @@ public class GroupsUIManager : MonoBehaviour
     [Header("Panel Fields")]
     public List<TMP_Text> groupNameTexts;
 
+
     void Start() {
         StartCoroutine(UpdateGroupsUI());
     }
     
     private IEnumerator UpdateGroupsUI() {
-        if(!GroupsLoader.Instance.loading) {
-            if (GroupsLoader.Instance.userGroupID == null)
+        if(!PlayerProfileLoader.Instance.loadingGroups) {
+
+            if (PlayerProfileLoader.Instance.userGroupID.Length != 36)
             {
                 emptyGroupsPanel.SetActive(true);
                 groupsSliderPanel.SetActive(false);
@@ -46,16 +48,48 @@ public class GroupsUIManager : MonoBehaviour
                 emptyGroupsPanel.SetActive(false);
                 groupsSliderPanel.SetActive(true);
 
-                Debug.Log("");
+                foreach(TMP_Text gpNameField in groupNameTexts) {
+                    gpNameField.text = PlayerProfileLoader.Instance.userGroupData.Child("group_name").Value.ToString();
+                    Debug.Log("Grupos atualizados");
+                }
 
                 //foreach(TMP_Text txGP in groupNameTexts) 
-                //txGP.text = GroupsLoader.Instance.userGroups.Child("group_name").Value.ToString();
+                //txGP.text = PlayerProfileLoader.Instance.userGroups.Child("group_name").Value.ToString();
             }
         }
 
         yield return new WaitForSeconds(1f);
+        StartCoroutine(UpdateGroupsUI());
     }
 
+    public void JoinGroupButton() {
+        StartCoroutine(JoinGroup());
+    }
+
+    private IEnumerator JoinGroup() {
+        string groupID = joinGroupID.text;
+
+        if(groupID.Length != 36) {
+            joinGroupID.text = "Codigo invalido";
+            yield return new WaitForSeconds(2f);
+            joinGroupID.text = " ";
+        }
+        else {
+            Task<DataSnapshot> DBTask = FirebaseManager.Instance.DBreference.Child("groups").Child(groupID).GetValueAsync();
+            yield return new WaitUntil(predicate: () => DBTask.IsCompleted);
+
+            Debug.Log(DBTask.Result);
+            if(DBTask.Result.Value == null) {
+                joinGroupID.text = "Não encontrado";
+            }
+            else {
+                Debug.Log("Encontrado");
+                Task DBTask2 = FirebaseManager.Instance.DBreference.Child("groups").Child(groupID)
+                .Child("members").SetValueAsync(FirebaseManager.Instance.user.UserId.ToString());
+                yield return new WaitUntil(predicate: () => DBTask2.IsCompleted);
+            }
+        }
+    }
 
     private IEnumerator CreateNewGroup()
     {
