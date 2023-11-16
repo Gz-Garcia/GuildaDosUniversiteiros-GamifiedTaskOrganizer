@@ -25,6 +25,7 @@ public class LoginManager : MonoBehaviour
     public TMP_InputField passwordRegisterField;
     public TMP_InputField passwordRegisterVerifyField;
     public TMP_Text warningRegisterText;
+    public TMP_Text nameConfirmText;
     
     public void ClearLoginFeilds()
     {
@@ -55,7 +56,7 @@ public class LoginManager : MonoBehaviour
     public void SignOutButton()
     {
         FirebaseManager.Instance.auth.SignOut();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
     //Function for the save button
     public void SaveDataButton()
@@ -105,7 +106,7 @@ public class LoginManager : MonoBehaviour
             FirebaseManager.Instance.user = LoginTask.Result.User;
             Debug.LogFormat("User signed in successfully: {0} ({1})", FirebaseManager.Instance.user.DisplayName, FirebaseManager.Instance.user.Email);
             warningLoginText.text = "";
-            confirmLoginText.text = "Logged In";
+            confirmLoginText.text = "Sucesso no Login!";
             
             yield return new WaitForSeconds(2);
             SceneManager.LoadScene(0);
@@ -127,6 +128,8 @@ public class LoginManager : MonoBehaviour
         }
         else
         {
+           
+
             //Call the Firebase auth signin function passing the email and password
             Task<AuthResult> RegisterTask = FirebaseManager.Instance.auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
             //Wait until the task completes
@@ -161,6 +164,8 @@ public class LoginManager : MonoBehaviour
             {
                 //User has now been created
                 //Now get the result
+                warningRegisterText.text = "Usuário Criado!";
+
                 FirebaseManager.Instance.user = RegisterTask.Result.User;
 
                 if (FirebaseManager.Instance.user != null)
@@ -182,6 +187,7 @@ public class LoginManager : MonoBehaviour
                     }
                     else
                     {
+                        yield return new WaitForSeconds(1f);
                         //Username is now set
                         //Now return to login screen
                         LoginUIManager.instance.LoginScreen();

@@ -27,6 +27,8 @@ public class ShopHandler : MonoBehaviour
 
                     item.owned = true;
                     MainPersistence.Instance.SpendGold(item.price);
+
+                    AssetList.Instance.currentFont = item.name;
                     itemObject.SetActive(false);
                     FileHandler.SaveToJSON<ItemData>(itens, filename);
                 }

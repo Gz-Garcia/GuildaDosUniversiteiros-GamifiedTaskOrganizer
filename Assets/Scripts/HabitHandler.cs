@@ -13,11 +13,12 @@ public class HabitHandler : MonoBehaviour
     private string filename = "habitos.json";
 
     public TMP_Text habitName;
-    public GameObject habitObject, codeHolder;
+    public GameObject habitObject, codeHolder, buttonBG, buttonIcon;
+    public Image[] imagens;
 
     private bool completed;
     public Button button;
-    public Sprite notDone, done;
+    public Sprite notDoneBG, doneBG, notDoneIcon, doneIcon;
 
     void Start() {
         completed = false;
@@ -46,13 +47,16 @@ public class HabitHandler : MonoBehaviour
     public void CheckHabit() {
         completed = !completed;
 
-        if (completed)
-        {
-            button.GetComponent<Image>().sprite = done;
+        if (completed) {
+            buttonBG.GetComponent<Image>().sprite = doneBG;
+            buttonIcon.GetComponent<Image>().sprite = doneIcon;
+
+            MainPersistence.Instance.CompleteDaily();
         }
         else
         {
-            button.GetComponent<Image>().sprite = notDone;
+            buttonBG.GetComponent<Image>().sprite = notDoneBG;
+            buttonIcon.GetComponent<Image>().sprite = notDoneIcon;
         }
     }
 

@@ -10,16 +10,17 @@ using TMPro;
 
 public class TaskHandler : MonoBehaviour
 {
-    private string filename = "tarefas.json";
     private int completedTaskIndex;
     public List<TaskData> tasks = new List<TaskData>(); 
+    public List<SideTaskData> sidetasks = new List<SideTaskData>(); 
     public TMP_Text taskName;
     public GameObject taskObject, codeHolder;
     public int sceneID;
 
 
     private void carregaLista() {
-        tasks = FileHandler.ReadListFromJSON<TaskData>(filename);
+        tasks = FileHandler.ReadListFromJSON<TaskData>("tarefas.json");
+        sidetasks = FileHandler.ReadListFromJSON<SideTaskData>("tarefas_secundarias.json");
     }
 
     public void completeTaskSwitch() {
@@ -41,7 +42,20 @@ public class TaskHandler : MonoBehaviour
         }
 
         taskObject.SetActive(false);
-        FileHandler.SaveToJSON<TaskData>(tasks, filename);
+        FileHandler.SaveToJSON<TaskData>(tasks, "tarefas.json");
+    }
+
+    public void submitSideTask() {
+        carregaLista();
+
+        string codigo = codeHolder.name;
+        foreach (SideTaskData task in sidetasks) { 
+            if(codigo == task.stcode) {
+                int reward = 5 * task.sttype;
+                MainPersistence.Instance.SubmitSide(reward);
+            }
+        }
+
     }
 
     public int CalcReward(int dificulty, string dueDate) {
